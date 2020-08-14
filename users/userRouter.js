@@ -7,18 +7,20 @@ const router = express.Router();
 
 router.use("/:id/posts", postRouter);
 
-router.post("/", validateUser(), (req, res) => {
-  users
-    .insert(req.user)
-    .then(data => res.json(data))
-    .catch(err => res.status(500).json({ error: "User cannot be made" }));
-});
 
 router.get("/", (req, res) => {
   users
     .get()
     .then(data => res.json(data))
     .catch(err => res.status(404).json({ message: "could not find users" }));
+});
+
+
+router.post("/", validateUser(), (req, res) => {
+  users
+    .insert(req.user)
+    .then(data => res.json(data))
+    .catch(err => res.status(500).json({ error: "User cannot be made" }));
 });
 
 router.get("/:id", validateUserId(), (req, res) => {
